@@ -42,11 +42,10 @@ export default async function handler(req, res) {
 
       replyToBeSent = completion.data.choices[0].text
 
-      console.log(replyToBeSent);
-
     } catch (error) {
       if (error.response) {
         console.log(error.response);
+        messageResponse.message(error.response);
         replyToBeSent = "There was an issue with the server"
       } else { // error getting response
         replyToBeSent = "An error occurred during your request.";
@@ -54,8 +53,8 @@ export default async function handler(req, res) {
     }
   }
 
-  // messageResponse.message(replyToBeSent);
-    messageResponse.message('Reply goes here');
+  messageResponse.message(replyToBeSent);
+    // messageResponse.message('Reply goes here');
   // send response
   res.writeHead(200, {
     'Content-Type': 'text/xml'
