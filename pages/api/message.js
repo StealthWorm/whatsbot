@@ -36,7 +36,7 @@ export default async function handler(req, res) {
         prompt: req.body.Body, // completion based on this
         temperature: 0.6, //
         n: 1,
-        max_tokens: 300,
+        max_tokens: 50,
         // stop: "."
       });
 
