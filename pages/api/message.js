@@ -30,13 +30,16 @@ export default async function handler(req, res) {
   if (sentMessage.trim().length === 0) {
     replyToBeSent = "We could not get your message. Please try again";
   } else {
+    console.log(sentMessage)
+    console.log(req.body.Body)
+
     try {
       const completion = await openAI.createCompletion({
         model: "text-davinci-003", // required
         prompt: req.body.Body, // completion based on this
         temperature: 0.6, //
         n: 1,
-        max_tokens: 50,
+        max_tokens: 500,
         // stop: "."
       });
 
