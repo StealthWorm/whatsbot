@@ -61,7 +61,11 @@ export default async function handler(req, res) {
     'Content-Type': 'text/xml'
   });
 
-  res.end(messageResponse.toString());
+  try {
+    res.end(messageResponse.toString());
+  } catch (error) {
+    console.error("Error sending response:", error);
+  }
 }
 
 function removeIncompleteText(inputString) {
