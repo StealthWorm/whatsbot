@@ -44,7 +44,7 @@ export default async function handler(req, res) {
 
     } catch (error) {
       if (error.response) {
-        replyToBeSent = error.response.toString();
+        replyToBeSent = JSON.stringify(error.response);
         // replyToBeSent = "There was an issue with the server"
       } else { // error getting response
         replyToBeSent = "An error occurred during your request.";
