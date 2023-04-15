@@ -52,21 +52,16 @@ export default async function handler(req, res) {
         replyToBeSent = "An error occurred during your request.";
       }
     }
-
-    messageResponse.message(replyToBeSent);
   }
 
+  messageResponse.message(replyToBeSent);
 
   // send response
   res.writeHead(200, {
     'Content-Type': 'text/xml'
   });
 
-  // try {
   res.end(messageResponse.toString());
-  // } catch (error) {
-  //   console.error("Error sending response:", error);
-  // }
 }
 
 function removeIncompleteText(inputString) {
