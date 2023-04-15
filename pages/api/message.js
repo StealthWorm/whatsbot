@@ -36,11 +36,11 @@ export default async function handler(req, res) {
         prompt: req.body.Body, // completion based on this
         temperature: 0.6, //
         n: 1,
-        max_tokens: 500,
+        max_tokens: 300,
         // stop: "."
       });
 
-      replyToBeSent = completion.data.choices[0].text
+      replyToBeSent = removeIncompleteText(completion.data.choices[0].text)
 
     } catch (error) {
       if (error.response) {
@@ -53,11 +53,17 @@ export default async function handler(req, res) {
   }
 
   messageResponse.message(replyToBeSent);
-    // messageResponse.message('Reply goes here');
+  // messageResponse.message('Reply goes here');
   // send response
   res.writeHead(200, {
     'Content-Type': 'text/xml'
   });
 
   res.end(messageResponse.toString());
+}
+
+function removeIncompleteText(inputString) {
+  const match = inputString.match(/\b\.\s\d+/g);
+  const removeAfter = match ? inputString.slice(0, inputString.lastIndexOf(match[match.length - 1])) : inputString;
+  return removeAfter
 }
