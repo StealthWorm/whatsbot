@@ -30,8 +30,15 @@ export default async function handler(req, res) {
   if (sentMessage.trim().length === 0) {
     replyToBeSent = "We could not get your message. Please try again";
   } else {
-    console.log(sentMessage)
-    console.log(req.body.Body)
+
+    if (!configuration.apiKey) {
+      res.status(500).json({
+        error: {
+          message: "OpenAI API key not configured",
+        }
+      });
+      return;
+    }
 
     try {
       const completion = await openAI.createCompletion({
