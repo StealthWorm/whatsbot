@@ -42,6 +42,8 @@ export default async function handler(req, res) {
 
       replyToBeSent = completion.data.choices[0].text
 
+      console.log(replyToBeSent);
+
     } catch (error) {
       if (error.response) {
         console.log(error.response);
