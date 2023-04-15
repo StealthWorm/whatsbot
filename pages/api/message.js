@@ -54,7 +54,8 @@ export default async function handler(req, res) {
     }
   }
 
-  messageResponse.message(replyToBeSent);
+  // messageResponse.message(replyToBeSent);
+    messageResponse.message('Reply goes here');
   // send response
   res.writeHead(200, {
     'Content-Type': 'text/xml'
