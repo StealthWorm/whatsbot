@@ -21,7 +21,7 @@ const configuration = new Configuration({
 const openAI = new OpenAIApi(configuration);
 
 export default async function handler(req, res) {
-  const MessagingResponse = require('twilio').twiml.MessagingResponse;
+  const MessagingResponse = await require('twilio').twiml.MessagingResponse;
   var messageResponse = new MessagingResponse();
 
   const sentMessage = req.body.Body || '';
@@ -51,10 +51,11 @@ export default async function handler(req, res) {
       });
 
       replyToBeSent = removeIncompleteText(completion.data.choices[0].text)
+      console.log(replyToBeSent)
 
     } catch (error) {
       if (error.response) {
-        console.log(error)
+        console.log(error.response)
         replyToBeSent = "There was an issue with the server"
       } else { // error getting response
         replyToBeSent = "An error occurred during your request.";
