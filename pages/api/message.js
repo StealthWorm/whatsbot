@@ -40,30 +40,31 @@ export default async function handler(req, res) {
       return;
     }
 
-    try {
-      const completion = await openAI.createCompletion({
-        model: "text-davinci-003", // required
-        prompt: 'HOW ARE YOU? ', //req.body.Body, // completion based on this
-        temperature: 0.6, //
-        n: 1,
-        max_tokens: 500,
-        // stop: "."
-      });
+    // try {
+    //   const completion = await openAI.createCompletion({
+    //     model: "text-davinci-003", // required
+    //     prompt: 'HOW ARE YOU? ', //req.body.Body, // completion based on this
+    //     temperature: 0.6, //
+    //     n: 1,
+    //     max_tokens: 500,
+    //     // stop: "."
+    //   });
 
-      replyToBeSent = removeIncompleteText(completion.data.choices[0].text)
-      console.log(replyToBeSent)
+    //   replyToBeSent = removeIncompleteText(completion.data.choices[0].text)
+    //   console.log(replyToBeSent)
 
-    } catch (error) {
-      if (error.response) {
-        console.log(error.response)
-        replyToBeSent = "There was an issue with the server"
-      } else { // error getting response
-        replyToBeSent = "An error occurred during your request.";
-      }
-    }
+    // } catch (error) {
+    //   if (error.response) {
+    //     console.log(error.response)
+    //     replyToBeSent = "There was an issue with the server"
+    //   } else { // error getting response
+    //     replyToBeSent = "An error occurred during your request.";
+    //   }
+    // }
   }
 
-  messageResponse.message(replyToBeSent);
+  // messageResponse.message(replyToBeSent);
+  messageResponse.message('Reply goes here');
 
   // send response
   res.writeHead(200, {
