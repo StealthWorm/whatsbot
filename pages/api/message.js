@@ -12,7 +12,7 @@
 //   res.end(messageResponse.toString());
 //   }
 
-import { Configuration, OpenAIApi } from "openai";
+import { Configuration, OpenAIApi } from "@openai/api";
 
 const configuration = new Configuration({
   apiKey: process.env.OPENAI_API_KEY,
@@ -21,8 +21,7 @@ const configuration = new Configuration({
 const openAI = new OpenAIApi(configuration);
 
 export default async function handler(req, res) {
-  const MessagingResponse =  require('twilio').twiml.MessagingResponse;
-  var messageResponse = new MessagingResponse();
+  const MessagingResponse =  require('twilio').twiml.MessagingResponse
 
   const sentMessage = req.body.Body || '';
   let replyToBeSent = "";
@@ -50,28 +49,34 @@ export default async function handler(req, res) {
       });
 
       replyToBeSent = removeIncompleteText(completion.data.choices[0].text)
-      // console.log(replyToBeSent)
-
     } catch (error) {
       if (error.response) {
-        console.log(error.response)
-        replyToBeSent = JSON.stringify(error.response)
-        // replyToBeSent = "There was an issue with the server"
+        replyToBeSent = error.response.data.message || "There was an issue with the server"
       } else { 
         replyToBeSent = "An error occurred during your request.";
       }
     }
   }
 
+  const messageResponse = new MessagingResponse();
   messageResponse.message(replyToBeSent);
   // messageResponse.message('Reply goes here');
 
   // send response
-  res.writeHead(200, {
-    'Content-Type': 'text/xml'
-  });
+  try {
+    res.writeHead(200, {
+      'Content-Type': 'text/xml'
+    });
 
-  res.send(messageResponse.toString());
+    res.end(messageResponse.toString());
+  } catch (error) {
+    console.error('Error sending Twilio response:', error);
+    res.status(500).json({
+      error: {
+        message: "Error sending Twilio response",
+      }
+    });
+  }
 }
 
 function removeIncompleteText(inputString) {
