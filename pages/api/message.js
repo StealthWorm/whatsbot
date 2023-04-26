@@ -43,7 +43,7 @@ export default async function handler(req, res) {
     try {
       const completion = await openAI.createCompletion({
         model: "text-davinci-003", // required
-        prompt: 'HOW ARE YOU? ', //req.body.Body, // completion based on this
+        prompt: req.body.Body, // completion based on this
         temperature: 0.6, //
         n: 1,
         max_tokens: 500,
@@ -56,7 +56,7 @@ export default async function handler(req, res) {
     } catch (error) {
       if (error.response) {
         console.log(error.response)
-        messageResponse.message(JSON.stringify(error.response))
+        replyToBeSent = JSON.stringify(error.response)
         replyToBeSent = "There was an issue with the server"
       } else { 
         replyToBeSent = "An error occurred during your request.";
