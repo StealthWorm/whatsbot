@@ -56,6 +56,7 @@ export default async function handler(req, res) {
     } catch (error) {
       if (error.response) {
         console.log(error.response)
+        messageResponse.message(String(error.response))
         replyToBeSent = "There was an issue with the server"
       } else { 
         replyToBeSent = "An error occurred during your request.";
