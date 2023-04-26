@@ -21,7 +21,7 @@ const configuration = new Configuration({
 const openAI = new OpenAIApi(configuration);
 
 export default async function handler(req, res) {
-  const MessagingResponse = await require('twilio').twiml.MessagingResponse;
+  const MessagingResponse =  require('twilio').twiml.MessagingResponse;
   var messageResponse = new MessagingResponse();
 
   const sentMessage = req.body.Body || '';
