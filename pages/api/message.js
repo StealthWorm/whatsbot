@@ -41,11 +41,11 @@ export default async function handler(req, res) {
     try {
       const completion = await openAI.createCompletion({
         model: "text-davinci-003", // required
-        prompt: req.body.Body, // completion based on this
+        prompt: `${req.body.Body}`, // completion based on this
         temperature: 0.6, //
         n: 1,
         max_tokens: 500,
-        // stop: "."
+        stop: '\n'
       });
 
       replyToBeSent = removeIncompleteText(completion.data.choices[0].text)
@@ -68,7 +68,8 @@ export default async function handler(req, res) {
       'Content-Type': 'text/xml'
     });
 
-    res.end(messageResponse.toString());
+    // res.end(messageResponse.toString());
+    res.status(200).json({ text: `${messageResponse.toString()}` })
   } catch (error) {
     console.error('Error sending Twilio response:', error);
     res.status(500).json({
