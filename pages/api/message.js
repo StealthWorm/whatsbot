@@ -24,7 +24,7 @@ export default async function handler(req, res) {
   const MessagingResponse =  require('twilio').twiml.MessagingResponse;
   var messageResponse = new MessagingResponse();
 
-  const sentMessage = req.body || ''; //req.body.Body 
+  const sentMessage = req.body.Body || '';
   let replyToBeSent = "";
 
   if (sentMessage.trim().length === 0) {
