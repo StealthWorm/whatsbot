@@ -1,19 +1,18 @@
 import { Configuration, OpenAIApi } from "openai";
 
-export default function handler(req, res) {
-  const MessagingResponse = require('twilio').twiml.MessagingResponse;
+// export default function handler(req, res) {
+//   const MessagingResponse = require('twilio').twiml.MessagingResponse;
 
-  var messageResponse = new MessagingResponse();
+//   var messageResponse = new MessagingResponse();
 
-  messageResponse.message(req.body.Body || 'Reply goes here');
+//   messageResponse.message(req.body.Body || 'Reply goes here');
 
-  // send response
-  res.writeHead(200, {
-    'Content-Type': 'text/xml'
-  });
-  res.end(messageResponse.toString());
-}
-
+//   // send response
+//   res.writeHead(200, {
+//     'Content-Type': 'text/xml'
+//   });
+//   res.end(messageResponse.toString());
+// }
 
 const configuration = new Configuration({
   organization: "org-x8RW5I36xljnTJnC49UbqVqV",
