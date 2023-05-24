@@ -30,14 +30,14 @@ export default async function handler(req, res) {
   if (sentMessage.trim().length === 0) {
     replyToBeSent = "We could not get your message. Please try again";
   } else {
-    //     if (!configuration.apiKey) {
-    //       res.status(500).json({
-    //         error: {
-    //           message: "OpenAI API key not configured",
-    //         }
-    //       });
-    //       return;
-    //     }
+    if (!configuration.apiKey) {
+      res.status(500).json({
+        error: {
+          message: "OpenAI API key not configured",
+        }
+      });
+      return;
+    }
 
     //     // try {
     const completion = await openAI.createCompletion({
@@ -45,24 +45,15 @@ export default async function handler(req, res) {
       prompt: `${req.body.Body}`, // completion based on this
       temperature: 0.6,
       //       // n: 1,
-      top_p: 1,
-      frequency_penalty: 0.0,
-      presence_penalty: 0.6,
+      // top_p: 1,
+      // frequency_penalty: 0.0,
+      // presence_penalty: 0.6,
       max_tokens: 500,
-      // stop: "\n"
+      stop: "\n"
     });
 
     console.log(JSON.stringify(JSON.parse(completion.data.choices[0].text)));
     replyToBeSent = removeIncompleteText(completion.data.choices[0].text)
-
-    //     // } catch (error) {
-    //     //   if (error.response) {
-    //     //     replyToBeSent = error.response.data.message || "There was an issue with the server"
-    //     //   } else {
-    //     //     replyToBeSent = "An error occurred during your request.";
-    //     //   }
-    //     // }
-    //   }
 
     const messageResponse = new MessagingResponse();
     messageResponse.message(replyToBeSent);
