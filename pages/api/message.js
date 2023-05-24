@@ -83,9 +83,10 @@ export default async function handler(req, res) {
       });
     }
   }
+}
 
-  function removeIncompleteText(inputString) {
-    const match = inputString.match(/\b\.\s\d+/g);
-    const removeAfter = match ? inputString.slice(0, inputString.lastIndexOf(match[match.length - 1])) : inputString;
-    return removeAfter
-  }
+function removeIncompleteText(inputString) {
+  const match = inputString.match(/\b\.\s\d+/g);
+  const removeAfter = match ? inputString.slice(0, inputString.lastIndexOf(match[match.length - 1])) : inputString;
+  return removeAfter
+}
