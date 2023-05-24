@@ -3,7 +3,7 @@ export default function handler(req, res) {
 
   var messageResponse = new MessagingResponse();
 
-  messageResponse.message('Reply goes here');
+  messageResponse.message(req.body.Body || 'Reply goes here');
 
   // send response
   res.writeHead(200, {
