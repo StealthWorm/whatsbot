@@ -29,6 +29,7 @@ export default async function handler(req, res) {
   if (sentMessage.trim().length === 0) {
     replyToBeSent = "We could not get your message. Please try again";
   } else {
+    console.log("entrou no else");
     if (!configuration.apiKey) {
       res.status(500).json({
         error: {
@@ -37,25 +38,29 @@ export default async function handler(req, res) {
       });
       return;
     }
+    console.log("validou chave API");
 
-    try {
+    // try {
       const completion = await openAI.createCompletion({
         model: "text-davinci-003", // required
         prompt: `${req.body.Body}`, // completion based on this
         temperature: 0.6, //
-        n: 1,
+        // n: 1,
         max_tokens: 500,
         stop: '\n'
       });
 
+      console.log(JSON.stringify(JSON.parse(completion.data.choices[0].text)));
       replyToBeSent = removeIncompleteText(completion.data.choices[0].text)
-    } catch (error) {
-      if (error.response) {
-        replyToBeSent = error.response.data.message || "There was an issue with the server"
-      } else { 
-        replyToBeSent = "An error occurred during your request.";
-      }
-    }
+      console.log(replyToBeSent);
+
+    // } catch (error) {
+    //   if (error.response) {
+    //     replyToBeSent = error.response.data.message || "There was an issue with the server"
+    //   } else { 
+    //     replyToBeSent = "An error occurred during your request.";
+    //   }
+    // }
   }
 
   const messageResponse = new MessagingResponse();
@@ -69,7 +74,7 @@ export default async function handler(req, res) {
     });
 
     res.end(messageResponse.toString());
-    console.log("passou aqui")
+    // console.log("passou aqui")
     // res.status(200).json({ text: `${messageResponse.toString()}` })
   } catch (error) {
     console.error('Error sending Twilio response:', error);
